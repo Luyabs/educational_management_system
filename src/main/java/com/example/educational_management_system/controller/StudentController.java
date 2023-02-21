@@ -48,7 +48,6 @@ public class StudentController {
 
     /**
      * 分页获取学生
-     * @return page
      */
     @GetMapping("/page")
     public Result getPage(int currentPage, int pageSize) {
@@ -58,8 +57,6 @@ public class StudentController {
 
     /**
      * 获取id={id}学生
-     * @param id
-     * @return student
      */
     @GetMapping("/{id}")
     public Result getById(@PathVariable int id) {
@@ -69,31 +66,31 @@ public class StudentController {
 
     /**
      * 添加学生
-     * @param studentDTO all inform (dept_name instead of dept_id)
+     * @param student
      */
     @PostMapping
-    public Result add(@RequestBody StudentDTO studentDTO) {
-        boolean flag = studentService.saveDTO(studentDTO);
+    public Result add(@RequestBody Student student) {
+        boolean flag = studentService.save(student);
         return flag ? Result.success().message("增加成功") : Result.error().message("增加失败");
     }
 
     /**
-     * 修改学生
-     * @param studentDTO all inform (dept_name instead of dept_id)
+     * 修改学生 [不修改 status]
+     * @param student 需要传入id
      */
     @PutMapping
-    public Result edit(@RequestBody StudentDTO studentDTO) {
-        boolean flag = studentService.updateDTO(studentDTO);
-        return flag ? Result.success().message("修改成功") : Result.error().message("修改失败: 可能id不存在");
+    public Result edit(@RequestBody Student student) {
+        boolean flag = studentService.update(student);
+        return flag ? Result.success().message("修改成功") : Result.error().message("修改失败");
     }
 
     /**
      * 修改状态
-     * @param studentDTO id status
+     * @param student 需要传入id 只影响status
      */
     @PutMapping("/status")
-    public Result changeStatus(@RequestBody StudentDTO studentDTO) {
-        boolean flag = studentService.updateStatus(studentDTO);
-        return flag ? Result.success().message("状态修改成功") : Result.error().message("状态修改失败: 可能id不存在");
+    public Result changeStatus(@RequestBody Student student) {
+        boolean flag = studentService.updateStatus(student);
+        return flag ? Result.success().message("状态修改成功") : Result.error().message("状态修改失败");
     }
 }

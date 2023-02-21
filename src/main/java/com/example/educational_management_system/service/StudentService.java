@@ -16,9 +16,9 @@ public interface StudentService extends IService<Student> {
 
     StudentDTO getByIdDTO(int id);
 
-    boolean saveDTO(StudentDTO studentDTO);
+    boolean save(Student student);
 
-    boolean updateDTO(StudentDTO studentDTO);
+    boolean update(Student student);
 
-    boolean updateStatus(StudentDTO studentDTO);
+    boolean updateStatus(Student student);
 }

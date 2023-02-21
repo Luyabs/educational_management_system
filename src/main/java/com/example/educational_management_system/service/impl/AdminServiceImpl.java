@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.educational_management_system.common.JwtUtils;
-import com.example.educational_management_system.common.ServiceException;
+import com.example.educational_management_system.common.exception.ServiceException;
 import com.example.educational_management_system.entity.Admin;
 import com.example.educational_management_system.mapper.AdminMapper;
 import com.example.educational_management_system.service.AdminService;
@@ -46,6 +46,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         Admin admin = adminMapper.selectById(id);
 
         Map<String, Object> map = new HashMap<>();
+        map.put("id", admin.getId());
         map.put("name", admin.getUsername());
         map.put("avatar", "https://www.w3.org/comm/assets/icons/megaphone.png");
         return map;

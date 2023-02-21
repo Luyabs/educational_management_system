@@ -10,9 +10,9 @@ public interface CourseService extends IService<Course> {
 
     CourseDTO getByIdDTO(int id);
 
-    boolean saveDTO(CourseDTO courseDTO);
+    boolean save(Course course);
 
-    boolean updateDTO(CourseDTO courseDTO);
+    boolean update(Course course);
 
     boolean delete(int id);
 }

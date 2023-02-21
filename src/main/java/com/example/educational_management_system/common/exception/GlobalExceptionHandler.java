@@ -1,5 +1,6 @@
-package com.example.educational_management_system.common;
+package com.example.educational_management_system.common.exception;
 
+import com.example.educational_management_system.common.Result;
 import com.fasterxml.jackson.core.JsonParseException;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +15,20 @@ import java.sql.SQLSyntaxErrorException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     // 自定义异常类
-    @ExceptionHandler(ServiceException.class)
-    private Result customException(ServiceException ex) {
+    @ExceptionHandler({ServiceException.class, ForeignKeyException.class})
+    private Result customException(RuntimeException ex) {
         log.info(ex.getMessage());
         return Result.error().message(ex.getMessage());
+    }
+
+    // UNIQUE约束 异常
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    private Result uniqueKeyRepeat(Exception ex) {
+        String errorProperty = ex.getMessage().split(" ")[12].split("\'")[1];
+        errorProperty = errorProperty.replaceFirst("PRIMARY", "id");   //额外判断主键
+
+        log.info(errorProperty + "在表中已存在, 请更换" + errorProperty);
+        return Result.error().message(errorProperty + "在表中已存在, 请更换" + errorProperty);
     }
 
     @ExceptionHandler({SignatureException.class})
@@ -33,26 +44,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NullPointerException.class)
-    private Result nullPointer() {
+    private Result nullPointer(Exception ex) {
         log.info("NullPointerException");
+        ex.printStackTrace();
         return Result.error().message("NullPointerException");
     }
 
-    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    private Result primaryKeyRepeat() {
-        log.info("属性重复");
-        return Result.error().message("属性重复！");
-    }
 
     @ExceptionHandler(SQLException.class)
     private Result notNullConstraint() {
-        log.info("SQLException, 可能只传入了一个id");
-        return Result.error().message("SQLException 可能有些字段不能为空 也可能日期有问题");
+        log.info("SQLException");
+        return Result.error().message("SQLException 字段不能为空/日期有问题");
     }
 
     @ExceptionHandler(SQLSyntaxErrorException.class)
     private Result onlyId() {
-        log.info("SQLSyntaxErrorException, 可能只传入了一个id");
-        return Result.error().message("SQLSyntaxErrorException, 可能只传入了一个id");
+        log.info("SQLSyntaxErrorException");
+        return Result.error().message("SQLSyntaxErrorException, 可能只传入了一个id/字段名不存在-可能拼写错误");
     }
 }

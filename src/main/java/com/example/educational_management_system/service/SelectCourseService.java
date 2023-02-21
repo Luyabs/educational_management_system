@@ -13,13 +13,17 @@ public interface SelectCourseService extends IService<SelectCourse> {
 
     SelectCourseDTO getByIdDTO(int id);
 
-    boolean selectCourse(int studentId, int termScheduleId);
+    boolean chooseCourse(int studentId, int termScheduleId);
 
-    List<SelectCourseDTO> getOnesCoursesDTO(int studentId);
+    boolean giveUpCourse(int id);
+
+    List<SelectCourseDTO> getOnesAllCoursesDTO(int studentId);
+
+    List<SelectCourseDTO> getClassAllCoursesDTO(int termScheduleId);
 
     boolean updateScore(SelectCourse selectCourse);
 
-    boolean giveUpCourse(int studentId, int termScheduleId);
 
-    List<SelectCourseDTO> getClassCourses(int termScheduleId);
+
+
 }

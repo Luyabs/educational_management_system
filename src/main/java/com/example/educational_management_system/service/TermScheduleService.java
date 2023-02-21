@@ -10,9 +10,10 @@ public interface TermScheduleService extends IService<TermSchedule> {
 
     TermScheduleDTO getByIdDTO(int id);
 
-    boolean saveDTO(TermScheduleDTO termScheduleDTO);
+    boolean save(TermSchedule termSchedule);
 
-    boolean updateDTO(TermScheduleDTO termScheduleDTO);
+    boolean update(TermSchedule termSchedule);
 
     boolean delete(int id);
+
 }

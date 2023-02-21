@@ -16,9 +16,9 @@ public interface TeacherService extends IService<Teacher> {
 
     TeacherDTO getByIdDTO(int id);
 
-    boolean saveDTO(TeacherDTO teacherDTO);
+    boolean save(Teacher teacher);
 
-    boolean updateDTO(TeacherDTO teacherDTO);
+    boolean update(Teacher teacher);
 
-    boolean updateStatus(TeacherDTO teacherDTO);
+    boolean updateStatus(Teacher teacher);
 }

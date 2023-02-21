@@ -1,22 +1,25 @@
 package com.example.educational_management_system.dto;
 
-import com.example.educational_management_system.entity.SelectCourse;
-import com.example.educational_management_system.entity.TermSchedule;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 @Data
-public class SelectCourseDTO extends SelectCourse {
-    // 学生名 [多表]
-    private String studentName;
+public class SelectCourseDTO {
+    // 选课表序号
+    private Integer id;
 
-    // 开课项 [多表]
-    private TermSchedule termSchedule;
+    // 学生
+    private StudentDTO student;
 
-    public SelectCourseDTO() {
-    }
+    // 开设的课
+    private TermScheduleDTO termSchedule;
 
-    public SelectCourseDTO(SelectCourse selectCourse) {
-        BeanUtils.copyProperties(selectCourse, this);
-    }
+    // 平时成绩
+    private Double scoreUsual;
+
+    // 考试成绩
+    private Double scoreExam;
+
+    // 总成绩
+    private Double scoreTotal;
+
 }

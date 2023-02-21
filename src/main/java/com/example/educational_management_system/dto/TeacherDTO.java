@@ -1,18 +1,27 @@
 package com.example.educational_management_system.dto;
 
-import com.example.educational_management_system.entity.Teacher;
+import com.example.educational_management_system.entity.Dept;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 @Data
-public class TeacherDTO extends Teacher {
-    // 院系名 [多表]
-    private String deptName;
+public class TeacherDTO {
+    // 学号
+    private Integer id;
 
-    public TeacherDTO() {
-    }
+    // 用户名
+    private String username;
 
-    public TeacherDTO(Teacher teacher) {
-        BeanUtils.copyProperties(teacher, this);
-    }
+    // 密码 [隐藏]
+
+    // 真实姓名
+    private String realName;
+
+    // 院系 [逻辑外键] [1:1]
+    private Dept dept;
+
+    // 状态 1: 正常   0: 已离校
+    private String status;
+
+    // 出生日期
+    private String title;
 }

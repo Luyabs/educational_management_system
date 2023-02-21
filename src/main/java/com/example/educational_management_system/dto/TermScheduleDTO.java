@@ -1,24 +1,21 @@
 package com.example.educational_management_system.dto;
 
-import com.example.educational_management_system.entity.TermSchedule;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 @Data
-public class TermScheduleDTO extends TermSchedule {
-    // 课名 [多表]
-    private String courseName;
+public class TermScheduleDTO {
+    // 选课表序号
+    private Integer id;
 
-    // 学院名 [间接 多表]
-    private String deptName;
+    // 学期
+    private String term;
 
-    // 教师名 [多表]
-    private String teacherName;
+    // 课程
+    private CourseDTO course;
 
-    public TermScheduleDTO() {
-    }
+    // 教师
+    private TeacherDTO teacher;
 
-    public TermScheduleDTO(TermSchedule termSchedule) {
-        BeanUtils.copyProperties(termSchedule, this);
-    }
+    // 上课时间
+    private String time;
 }

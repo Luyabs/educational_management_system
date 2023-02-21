@@ -1,18 +1,25 @@
 package com.example.educational_management_system.dto;
 
-import com.example.educational_management_system.entity.Course;
+import com.example.educational_management_system.entity.Dept;
 import lombok.Data;
-import org.springframework.beans.BeanUtils;
 
 @Data
-public class CourseDTO extends Course {
-    // 院系名 [多表]
-    private String deptName;
+public class CourseDTO {
+    // 课程号
+    private Integer id;
 
-    public CourseDTO() {
-    }
+    // 课程名
+    private String courseName;
 
-    public CourseDTO(Course course) {
-        BeanUtils.copyProperties(course, this);
-    }
+    // 院系号 [外键]
+    private Dept dept;
+
+    // 学时
+    private Double hour;
+
+    // 学分
+    private Double credit;
+
+    // 逻辑删除 1: 已删除   0: 正常
+    private Integer isDeleted;
 }

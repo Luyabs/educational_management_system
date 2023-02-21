@@ -3,6 +3,7 @@ package com.example.educational_management_system.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.educational_management_system.common.Result;
 import com.example.educational_management_system.dto.CourseDTO;
+import com.example.educational_management_system.entity.Course;
 import com.example.educational_management_system.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,22 +32,22 @@ public class CourseController {
 
     /**
      * 添加课程
-     * @param courseDTO all inform (dept_name instead of dept_id)
+     * @param course
      */
     @PostMapping
-    public Result add(@RequestBody CourseDTO courseDTO) {
-        boolean flag = courseService.saveDTO(courseDTO);
+    public Result add(@RequestBody Course course) {
+        boolean flag = courseService.save(course);
         return flag ? Result.success().message("增加成功") : Result.error().message("增加失败");
     }
 
     /**
-     * 修改课程
-     * @param courseDTO all inform (dept_name instead of dept_id)
+     * 修改课程 [不修改 isDeleted]
+     * @param course 需要传入id
      */
     @PutMapping
-    public Result edit(@RequestBody CourseDTO courseDTO) {
-        boolean flag = courseService.updateDTO(courseDTO);
-        return flag ? Result.success().message("修改成功") : Result.error().message("修改失败: 可能id不存在");
+    public Result edit(@RequestBody Course course) {
+        boolean flag = courseService.update(course);
+        return flag ? Result.success().message("修改成功") : Result.error().message("修改失败");
     }
 
     /**
@@ -55,6 +56,6 @@ public class CourseController {
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable int id) {
         boolean flag = courseService.delete(id);
-        return flag ? Result.success().message("课程删除成功") : Result.error().message("课程删除失败: 可能id不存在");
+        return flag ? Result.success().message("课程删除成功") : Result.error().message("课程删除失败");
     }
 }

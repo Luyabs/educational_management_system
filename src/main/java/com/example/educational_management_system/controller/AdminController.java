@@ -47,7 +47,6 @@ public class AdminController {
 
     /**
      * 分页获取管理员
-     * @return page
      */
     @GetMapping("/page")
     public Result getPage(int currentPage, int pageSize) {
@@ -57,8 +56,6 @@ public class AdminController {
 
     /**
      * 获取id={id}管理员
-     * @param id
-     * @return admin
      */
     @GetMapping("/{id}")
     public Result getById(@PathVariable int id) {
