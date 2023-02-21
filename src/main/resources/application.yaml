@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource  # DRUID
+    url: jdbc:mysql://localhost:3306/educational_management_system
+
+    username: root
+    password: 123456
+
+
+  servlet:
+    multipart:
+      max-file-size: 10MB   # uploaded_file_size default 1MB max 10MB
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher  # swagger
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # running log
+    map-underscore-to-camel-case: true  # Mapping: phone_number => phoneNumber
+
+  global-config:
+    db-config:
+      id-type: AUTO   # 64bit-long id
+
