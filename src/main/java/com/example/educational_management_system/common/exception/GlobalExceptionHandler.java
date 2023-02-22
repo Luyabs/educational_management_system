@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     // UNIQUE约束 异常
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     private Result uniqueKeyRepeat(Exception ex) {
-        String errorProperty = ex.getMessage().split(" ")[12].split("\'")[1];
+        String errorProperty = ex.getMessage().split(" ")[12].split("'")[1];
         errorProperty = errorProperty.replaceFirst("PRIMARY", "id");   //额外判断主键
 
         log.info(errorProperty + "在表中已存在, 请更换" + errorProperty);
