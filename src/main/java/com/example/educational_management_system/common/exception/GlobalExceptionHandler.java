@@ -46,6 +46,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     private Result nullPointer(Exception ex) {
         log.info("NullPointerException");
+        if (ex.getMessage().contains("Cannot invoke \"java.lang.Integer.intValue()\""))
+            return Result.error().message("你可能传入了一个空的JSON [int属性字段为空]");
         ex.printStackTrace();
         return Result.error().message("NullPointerException");
     }
