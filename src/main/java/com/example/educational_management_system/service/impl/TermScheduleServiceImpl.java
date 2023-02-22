@@ -37,8 +37,8 @@ public class TermScheduleServiceImpl extends ServiceImpl<TermScheduleMapper, Ter
     public IPage<TermScheduleDTO> getPage(int currentPage, int pageSize, TermSchedule termSchedule) {
         LambdaQueryWrapper<TermSchedule> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(termSchedule.getTerm() != null, TermSchedule::getTerm, termSchedule.getTerm());
-//        wrapper.like(termSchedule.getCourseId() != null, TermSchedule::getCourseId, termSchedule.getCourseId());
-//        wrapper.like(termSchedule.getTeacherId() != null, TermSchedule::getTeacherId, termSchedule.getTeacherId());
+        wrapper.like(termSchedule.getCourseId() != null, TermSchedule::getCourseId, termSchedule.getCourseId());
+        wrapper.like(termSchedule.getTeacherId() != null, TermSchedule::getTeacherId, termSchedule.getTeacherId());
         wrapper.like(termSchedule.getTime() != null, TermSchedule::getTime, termSchedule.getTime());
         return termScheduleMapper.selectPageDTO(new Page<>(currentPage, pageSize), wrapper);
     }
