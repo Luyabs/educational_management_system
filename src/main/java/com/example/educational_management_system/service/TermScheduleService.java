@@ -15,5 +15,4 @@ public interface TermScheduleService extends IService<TermSchedule> {
     boolean update(TermSchedule termSchedule);
 
     boolean delete(int id);
-
 }

@@ -95,6 +95,16 @@ public class SelectCourseServiceImpl extends ServiceImpl<SelectCourseMapper, Sel
         return selectCourseMapper.selectListByTermScheduleIdDTO(termScheduleId);
     }
 
+
+    /**
+     * 获取某教师开的所有课程中所有学生的选课-成绩信息
+     */
+    @Override
+    public List<SelectCourseDTO> getTeacherAllCoursesDTO(int teacherId) {
+        KeyCheck.checkTeacher(teacherId);
+        return selectCourseMapper.selectListByTeacherIdDTO(teacherId);
+    }
+
     /**
      * 登分
      */

@@ -21,9 +21,9 @@ public interface SelectCourseService extends IService<SelectCourse> {
 
     List<SelectCourseDTO> getClassAllCoursesDTO(int termScheduleId);
 
+    List<SelectCourseDTO> getTeacherAllCoursesDTO(int teacherId);
+
     boolean updateScore(SelectCourse selectCourse);
-
-
 
 
 }

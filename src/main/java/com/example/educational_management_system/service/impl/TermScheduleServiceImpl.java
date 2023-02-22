@@ -47,7 +47,6 @@ public class TermScheduleServiceImpl extends ServiceImpl<TermScheduleMapper, Ter
     @Override
     public boolean save(TermSchedule termSchedule) {
         KeyCheck.primaryCheckTermSchedule(termSchedule);
-        System.out.println("123123123231123123123123");
         KeyCheck.checkTeacher(termSchedule.getTeacherId());
         KeyCheck.checkCourse(termSchedule.getCourseId());
         return termScheduleMapper.insert(termSchedule) > 0;
@@ -87,5 +86,4 @@ public class TermScheduleServiceImpl extends ServiceImpl<TermScheduleMapper, Ter
             throw new ServiceException("课程已有学生选/过去曾开设过 不可删除");
         return termScheduleMapper.deleteById(id) > 0;
     }
-
 }

@@ -56,19 +56,30 @@ public class SelectCourseController {
      * 获取学号为student_id的学生的所有选课信息与成绩
      * @Param studentId 学号
      */
-    @GetMapping("/course/{student_id}")
+    @GetMapping("/student/{student_id}")
     public Result getOneStudentCourses(@PathVariable(name = "student_id") int studentId) {
         List<SelectCourseDTO> courses = selectCourseService.getOnesAllCoursesDTO(studentId);
         return Result.success().data("selectedCourses", courses);
     }
 
     /**
-     * 获取班上所有学生的选课-成绩
+     * 获取某门课所有学生的选课-成绩
      * @Param termScheduleId 开课号
      */
     @GetMapping("/class/{term_schedule_id}")
     public Result getOneClassCourses(@PathVariable(name = "term_schedule_id") int termScheduleId) {
         List<SelectCourseDTO> courses = selectCourseService.getClassAllCoursesDTO(termScheduleId);
+        return Result.success().data("selectedCourses", courses);
+    }
+
+
+    /**
+     * 查找某门教师自己开的课
+     * @Param teacherId 教师号
+     */
+    @GetMapping("/teacher/{teacher_id}")
+    public Result getOneTeacherCourses(@PathVariable(name = "teacher_id") int teacherId) {
+        List<SelectCourseDTO> courses = selectCourseService.getTeacherAllCoursesDTO(teacherId);
         return Result.success().data("selectedCourses", courses);
     }
 
