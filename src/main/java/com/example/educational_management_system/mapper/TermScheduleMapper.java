@@ -1,7 +1,9 @@
 package com.example.educational_management_system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.example.educational_management_system.dto.CourseDTO;
 import com.example.educational_management_system.dto.TermScheduleDTO;
 import com.example.educational_management_system.entity.TermSchedule;
@@ -24,8 +26,9 @@ public interface TermScheduleMapper extends BaseMapper<TermSchedule> {
             from term_schedule
             join teacher on teacher_id = teacher.id
             join course on course_id = course.id
+            ${ew.customSqlSegment}
             """)
-    IPage<TermScheduleDTO> selectPageDTO(IPage<TermScheduleDTO> iPage);
+    IPage<TermScheduleDTO> selectPageDTO(IPage<TermScheduleDTO> iPage, @Param(Constants.WRAPPER) LambdaQueryWrapper<TermSchedule> wrapper);
 
 
     @ResultMap(value = "withCourseAndTeacher")

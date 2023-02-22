@@ -18,8 +18,8 @@ public class TermScheduleController {
      * 分页获取总开课表
      */
     @GetMapping("/page")
-    public Result getPage(int currentPage, int pageSize) {
-        IPage<TermScheduleDTO> page = termScheduleService.getPage(currentPage, pageSize);
+    public Result getPage(@RequestParam(defaultValue = "1") int currentPage, @RequestParam(defaultValue = "10") int pageSize, TermSchedule termSchedule) {
+        IPage<TermScheduleDTO> page = termScheduleService.getPage(currentPage, pageSize, termSchedule);
         return Result.success().data("page", page);
     }
 
