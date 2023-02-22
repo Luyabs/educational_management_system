@@ -52,9 +52,11 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(SQLException.class)
-    private Result notNullConstraint() {
-        log.info("SQLException");
-        return Result.error().message("SQLException 字段不能为空/日期有问题");
+    private Result notNullConstraint(Exception ex) {
+//        ex.printStackTrace();
+        String msg = "字段" + ex.getMessage().split(" ")[8] + "不能为空";
+        log.info("SQLException: " + msg);
+        return Result.error().message(msg);
     }
 
     @ExceptionHandler(SQLSyntaxErrorException.class)
