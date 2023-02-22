@@ -43,12 +43,13 @@ public interface SelectCourseMapper extends BaseMapper<SelectCourse> {
             """)
     SelectCourseDTO selectByIdDTO(@RequestParam("id") int id);
 
-    @Results(id = "withTermSchedule", value = {
-            @Result(
-                    column = "term_schedule_id", property = "termSchedule", javaType = TermScheduleDTO.class,
-                    one = @One(select = "com.example.educational_management_system.mapper.TermScheduleMapper.selectByIdDTO")
-            )
-    })
+//    /*@Results(id = "withTermSchedule", value = {
+//            @Result(
+//                    column = "term_schedule_id", property = "termSchedule", javaType = TermScheduleDTO.class,
+//                    one = @One(select = "com.example.educational_management_system.mapper.TermScheduleMapper.selectByIdDTO")
+//            )
+//    })*/
+    @ResultMap(value = "withStudentAndTermSchedule")
     @Select("""
             select select_course.id, student_id, term_schedule_id, score_usual, score_exam, score_total
             from select_course
@@ -57,12 +58,13 @@ public interface SelectCourseMapper extends BaseMapper<SelectCourse> {
             """)
     List<SelectCourseDTO> selectListByStudentIdDTO(@RequestParam("student_id") int studentId);    // 获取某人所选课程的合集
 
-    @Results(id = "withStudent", value = {
+    /*@Results(id = "withStudent", value = {
             @Result(
                     column = "student_id", property = "student", javaType = StudentDTO.class,
                     one = @One(select = "com.example.educational_management_system.mapper.StudentMapper.selectByIdDTO")
             )
-    })
+    })*/
+    @ResultMap(value = "withStudentAndTermSchedule")
     @Select("""
             select select_course.id, student_id, term_schedule_id, score_usual, score_exam, score_total
             from select_course
