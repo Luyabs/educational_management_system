@@ -10,20 +10,18 @@ import com.example.educational_management_system.entity.SelectCourse;
 import com.example.educational_management_system.entity.Student;
 import com.example.educational_management_system.entity.TermSchedule;
 import com.example.educational_management_system.mapper.SelectCourseMapper;
-import com.example.educational_management_system.mapper.TermScheduleMapper;
 import com.example.educational_management_system.service.SelectCourseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class SelectCourseServiceImpl extends ServiceImpl<SelectCourseMapper, SelectCourse> implements SelectCourseService {
     @Autowired
     private SelectCourseMapper selectCourseMapper;
-
-    @Autowired
-    private TermScheduleMapper termScheduleMapper;
 
     /**
      * 分页查询
@@ -59,9 +57,7 @@ public class SelectCourseServiceImpl extends ServiceImpl<SelectCourseMapper, Sel
         if (student.getStatus() != 1)
             throw new ServiceException("学生不处于正常状态");
         // 可选
-        SelectCourse selectCourse = new SelectCourse();
-        selectCourse.setStudentId(studentId);
-        selectCourse.setTermScheduleId(termScheduleId);
+        SelectCourse selectCourse = new SelectCourse(studentId, termScheduleId);
 
         return selectCourseMapper.insert(selectCourse) > 0;
     }
@@ -117,16 +113,18 @@ public class SelectCourseServiceImpl extends ServiceImpl<SelectCourseMapper, Sel
      * 检测是否学生选课时间冲突
      */
     private boolean isTimeConflict(int studentId, TermSchedule termSchedule) {
-        List<String> timeList = selectCourseMapper.getOnesAllCoursesTimeList(studentId);
+        KeyCheck.primaryCheckSelectCourse(new SelectCourse(studentId, termSchedule.getId()));
+        List<String> timeList = selectCourseMapper.getOnesAllCoursesTimeList(studentId, termSchedule.getTerm());
+        log.info(timeList.toString());
 
-        for (String time : timeList) {   //遍历这名学生选的所有课 如果选课时间冲突则返回true
+        for (String time : timeList) {   //遍历这名学生对应学期选的所有课 如果选课时间冲突则返回true
 
             String[] timeSegment = time.split(" ");
             String[] termScheduleSegment = termSchedule.getTime().split(" ");
             for (String seg1 : timeSegment) {
                 for (String seg2 : termScheduleSegment) {
                     if (seg1.charAt(2) == seg2.charAt(2)) {    //如果星期相同 继续判断
-                        if (seg1.charAt(5) > seg2.charAt(3) && seg1.charAt(3) < seg2.charAt(5))
+                        if (!(seg1.charAt(5) < seg2.charAt(3) || seg1.charAt(3) > seg2.charAt(5)))    // 时间没有重合部分
                             return true;
                     }
                 }

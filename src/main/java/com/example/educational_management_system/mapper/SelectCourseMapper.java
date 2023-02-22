@@ -69,13 +69,14 @@ public interface SelectCourseMapper extends BaseMapper<SelectCourse> {
             join student on student_id = student.id
             where term_schedule_id = #{term_schedule_id}
             """)
-    List<SelectCourseDTO> selectListByTermScheduleIdDTO(@RequestParam("term_schedule_id") int termScheduleId);  // 获取某门课下所有人信息合集
+    List<SelectCourseDTO> selectListByTermScheduleIdDTO(@Param("term_schedule_id") int termScheduleId);  // 获取某门课下所有人信息合集
 
     @Select("""
             select term_schedule.time
             from select_course
             join term_schedule on term_schedule_id = term_schedule.id
             where student_id = #{student_id}
+            and term = #{term}
             """)
-    List<String> getOnesAllCoursesTimeList(@RequestParam("student_id")int studentId);    //获取某人选课时间的时间表
+    List<String> getOnesAllCoursesTimeList(@Param("student_id") int studentId, @Param("term") String term);    //获取某人选课时间的时间表
 }

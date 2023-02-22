@@ -21,4 +21,12 @@ public class SelectCourse {
 
     // 总成绩
     private Double scoreTotal;
+
+    public SelectCourse() {
+    }
+
+    public SelectCourse(int studentId, int termScheduleId) {
+        this.studentId = studentId;
+        this.termScheduleId = termScheduleId;
+    }
 }

@@ -6,7 +6,6 @@ import com.example.educational_management_system.dto.StudentDTO;
 import com.example.educational_management_system.entity.Dept;
 import com.example.educational_management_system.entity.Student;
 import org.apache.ibatis.annotations.*;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Mapper
 public interface StudentMapper extends BaseMapper<Student> {
@@ -33,5 +32,5 @@ public interface StudentMapper extends BaseMapper<Student> {
             join dept on student.dept_id = dept.id
             where student.id = #{id}
             """)
-    StudentDTO selectByIdDTO(@RequestParam("id") int id);
+    StudentDTO selectByIdDTO(@Param("id") int id);
 }

@@ -1,11 +1,15 @@
 package com.example.educational_management_system.common;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.educational_management_system.common.exception.ForeignKeyException;
+import com.example.educational_management_system.common.exception.ServiceException;
 import com.example.educational_management_system.entity.*;
 import com.example.educational_management_system.mapper.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class KeyCheck {
 
@@ -68,5 +72,27 @@ public class KeyCheck {
         return selectCourse;
     }
 
+    /**
+     * 检查TermSchedule表逻辑主键  term + courseId + teacherId
+     */
+    public static void primaryCheckTermSchedule(TermSchedule termSchedule) {
+        LambdaQueryWrapper<TermSchedule> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(TermSchedule::getTerm, termSchedule.getTerm());
+        wrapper.eq(TermSchedule::getCourseId, termSchedule.getCourseId());
+        wrapper.eq(TermSchedule::getTeacherId, termSchedule.getTeacherId());
+        if (termScheduleMapper.exists(wrapper))  //主键重复
+            throw new ServiceException("该term, course_id, teacher_id组合在表中已存在" );
+    }
+
+    /**
+     * 检查TermSchedule表逻辑主键  studentId + termScheduleId  [实际上由isTimeConflict已确保termScheduleId不会重复]
+     */
+    public static void primaryCheckSelectCourse(SelectCourse selectCourse) {
+        LambdaQueryWrapper<SelectCourse> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SelectCourse::getStudentId, selectCourse.getStudentId());
+        wrapper.eq(SelectCourse::getTermScheduleId, selectCourse.getTermScheduleId());
+        if (selectCourseMapper.exists(wrapper))  //主键重复
+            throw new ServiceException("该student_id, term_schedule_id组合在表中已存在" );
+    }
 
 }

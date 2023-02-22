@@ -46,6 +46,8 @@ public class TermScheduleServiceImpl extends ServiceImpl<TermScheduleMapper, Ter
      */
     @Override
     public boolean save(TermSchedule termSchedule) {
+        KeyCheck.primaryCheckTermSchedule(termSchedule);
+        System.out.println("123123123231123123123123");
         KeyCheck.checkTeacher(termSchedule.getTeacherId());
         KeyCheck.checkCourse(termSchedule.getCourseId());
         return termScheduleMapper.insert(termSchedule) > 0;
@@ -57,10 +59,17 @@ public class TermScheduleServiceImpl extends ServiceImpl<TermScheduleMapper, Ter
      */
     @Override
     public boolean update(TermSchedule termSchedule) {
-        if (termSchedule.getTeacherId() != null)
+        TermSchedule temp = KeyCheck.checkTermSchedule(termSchedule.getId());
+        if (termSchedule.getTeacherId() != null) {
             KeyCheck.checkTeacher(termSchedule.getTeacherId());
-        if (termSchedule.getCourseId() != null)
+            temp.setTeacherId(termSchedule.getTeacherId());
+        }
+        if (termSchedule.getCourseId() != null) {
             KeyCheck.checkCourse(termSchedule.getCourseId());
+            temp.setCourseId(termSchedule.getCourseId());
+        }
+        // 确保主键不重复
+        KeyCheck.primaryCheckTermSchedule(temp);
         return termScheduleMapper.updateById(termSchedule) > 0;
     }
 
